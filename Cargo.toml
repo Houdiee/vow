@@ -1,0 +1,27 @@
+[package]
+name = "vow"
+version = "0.2.0"
+edition = "2024"
+rust-version = "1.88"
+description = "Declare the packages and dotfiles your machines should have, and converge to them"
+license = "MIT"
+repository = "https://github.com/Houdiee/vow"
+homepage = "https://github.com/Houdiee/vow"
+readme = "README.md"
+keywords = ["dotfiles", "package-manager", "declarative", "symlink", "cli"]
+categories = ["command-line-utilities", "config"]
+
+[[bin]]
+name = "vow"
+path = "src/main.rs"
+
+[dependencies]
+annotate-snippets = "0.12.16"
+anyhow = "1.0.99"
+clap = { version = "4.5.47", features = ["derive"] }
+dirs = "6.0.0"
+libc = "0.2"
+serde = { version = "1", features = ["derive"] }
+toml = "0.9"
+unicode-width = "0.2.2"
+which = "8.0.0"

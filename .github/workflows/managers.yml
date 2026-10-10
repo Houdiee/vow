@@ -1,0 +1,27 @@
+# Each package manager in its own container: vow installs, lists, searches and
+# removes a package with the real tool. Weekly, to catch a tool changing its output.
+name: Managers
+
+on:
+  push:
+    paths:
+      - "src/manager/**"
+      - ".github/workflows/managers.yml"
+  schedule:
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+
+jobs:
+  manager:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        manager: [apt, pacman, gem, pipx, composer, npm, pnpm, bun, yarn, cargo, dotnet, apk, xbps, dnf, zypper, brew, luarocks, pip, uv, opam, dart_pub, raco, coursier, go, rustup, mise, asdf, pyenv, volta, ghcup, elan, zvm, bob, code_server, krew, pixi, fisher, ollama, yazi, soar]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --bin vow manager::container::${{ matrix.manager }} -- --exact --nocapture
+        env:
+          VOW_CONTAINERS: "1"
